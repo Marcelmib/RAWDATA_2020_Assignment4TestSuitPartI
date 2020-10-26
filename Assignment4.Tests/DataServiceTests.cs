@@ -16,7 +16,7 @@ namespace Assignment4.Tests
             Assert.Null(category.Name);
             Assert.Null(category.Description);
         }
-
+        
         [Fact]
         public void GetAllCategories_NoArgument_ReturnsAllCategories()
         {
@@ -25,7 +25,7 @@ namespace Assignment4.Tests
             Assert.Equal(8, categories.Count);
             Assert.Equal("Beverages", categories.First().Name);
         }
-
+        
         [Fact]
         public void GetCategory_ValidId_ReturnsCategoryObject()
         {
@@ -33,7 +33,7 @@ namespace Assignment4.Tests
             var category = service.GetCategory(1);
             Assert.Equal("Beverages", category.Name);
         }
-
+        
         [Fact]
         public void CreateCategory_ValidData_CreteCategoryAndRetunsNewObject()
         {
@@ -46,7 +46,7 @@ namespace Assignment4.Tests
             // cleanup
             service.DeleteCategory(category.Id);
         }
-
+        
         [Fact]
         public void DeleteCategory_ValidId_RemoveTheCategory()
         {
@@ -57,7 +57,7 @@ namespace Assignment4.Tests
             category = service.GetCategory(category.Id);
             Assert.Null(category);
         }
-
+        
         [Fact]
         public void DeleteCategory_InvalidId_ReturnsFalse()
         {
@@ -65,7 +65,7 @@ namespace Assignment4.Tests
             var result = service.DeleteCategory(-1);
             Assert.False(result);
         }
-
+        
         [Fact]
         public void UpdateCategory_NewNameAndDescription_UpdateWithNewValues()
         {
@@ -83,7 +83,7 @@ namespace Assignment4.Tests
             // cleanup
             service.DeleteCategory(category.Id);
         }
-
+        
         [Fact]
         public void UpdateCategory_InvalidID_ReturnsFalse()
         {
@@ -92,8 +92,8 @@ namespace Assignment4.Tests
             Assert.False(result);
         }
 
-
-        /* products */
+        
+        // products 
 
         [Fact]
         public void Product_Object_HasIdNameUnitPriceQuantityPerUnitAndUnitsInStock()
@@ -106,6 +106,7 @@ namespace Assignment4.Tests
             Assert.Equal(0, product.UnitsInStock);
         }
 
+        
         [Fact]
         public void GetProduct_ValidId_ReturnsProductWithCategory()
         {
@@ -114,7 +115,7 @@ namespace Assignment4.Tests
             Assert.Equal("Chai", product.Name);
             Assert.Equal("Beverages", product.Category.Name);
         }
-
+        
         [Fact]
         public void GetProductsByCategory_ValidId_ReturnsProductWithCategory()
         {
@@ -122,21 +123,21 @@ namespace Assignment4.Tests
             var products = service.GetProductByCategory(1);
             Assert.Equal(12, products.Count);
             Assert.Equal("Chai", products.First().Name);
-            Assert.Equal("Beverages", products.First().CategoryName);
-            Assert.Equal("Lakkalikˆˆri", products.Last().Name);
+            Assert.Equal("Beverages", products.First().Category.Name);
+            Assert.Equal("Lakkalik√∂√∂ri", products.Last().Name);
         }
-
+        
         [Fact]
         public void GetProduct_NameSubString_ReturnsProductsThatMachesTheSubString()
         {
             var service = new DataService();
             var products = service.GetProductByName("em");
             Assert.Equal(4, products.Count);
-            Assert.Equal("NuNuCa Nuﬂ-Nougat-Creme", products.First().ProductName);
-            Assert.Equal("Flotemysost", products.Last().ProductName);
+            Assert.Equal("NuNuCa Nu√ü-Nougat-Creme", products.First().Name); //wrong query???
+            Assert.Equal("Flotemysost", products.Last().Name);   // changed from productname to name
         }
-
-        /* orders */
+        
+        // orders 
         [Fact]
         public void Order_Object_HasIdDatesAndOrderDetails()
         {
@@ -148,7 +149,7 @@ namespace Assignment4.Tests
             Assert.Null(order.ShipName);
             Assert.Null(order.ShipCity);
         }
-
+        
         [Fact]
         public void GetOrder_ValidId_ReturnsCompleteOrder()
         {
@@ -158,7 +159,7 @@ namespace Assignment4.Tests
             Assert.Equal("Queso Cabrales", order.OrderDetails.First().Product.Name);
             Assert.Equal("Dairy Products", order.OrderDetails.First().Product.Category.Name);
         }
-
+        
         [Fact]
         public void GetOrders()
         {
@@ -167,8 +168,8 @@ namespace Assignment4.Tests
             Assert.Equal(830, orders.Count);
         }
 
-
-        /* orderdetails */
+        
+        // orderdetails 
         [Fact]
         public void OrderDetails_Object_HasOrderProductUnitPriceQuantityAndDiscount()
         {
@@ -181,7 +182,7 @@ namespace Assignment4.Tests
             Assert.Equal(0.0, orderDetails.Quantity);
             Assert.Equal(0.0, orderDetails.Discount);
         }
-
+        
         [Fact]
         public void GetOrderDetailByOrderId_ValidId_ReturnsProductNameUnitPriceAndQuantity()
         {
@@ -192,7 +193,7 @@ namespace Assignment4.Tests
             Assert.Equal(14, orderDetails.First().UnitPrice);
             Assert.Equal(12, orderDetails.First().Quantity);
         }
-
+        
         [Fact]
         public void GetOrderDetailByProductId_ValidId_ReturnsOrderDateUnitPriceAndQuantity()
         {
@@ -203,5 +204,6 @@ namespace Assignment4.Tests
             Assert.Equal(21, orderDetails.First().UnitPrice);
             Assert.Equal(3, orderDetails.First().Quantity);
         }
+        
     }
 }
